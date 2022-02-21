@@ -1,8 +1,9 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-import Something from "../features/counter/Something";
+import VocabStore from "../features/counter/setVocabulary";
+
 export const store = configureStore({
 	reducer: {
-		counter: Something,
+		Vocabs: VocabStore,
 	},
 });
 

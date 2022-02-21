@@ -1,20 +1,22 @@
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { SET_START, selectStart } from "../features/counter/setVocabulary";
 import { useEffect, useState, useContext } from "react";
 import ReactDOM from "react-dom";
 import { Typography, Box, TextField, Button } from "@mui/material";
-import { AppContext } from "./HomePage";
+import { ModalContext } from "./SelectLanguages";
 import { CloseOutlined } from "@mui/icons-material";
 
-const appRoot = document.getElementById("root");
-
 const Modal = () => {
+	const dispatch = useAppDispatch();
+	const isStarted = useAppSelector(selectStart);
 	const [language, setLanguage] = useState("");
 	const [error, setError] = useState("");
-	const contextValues = useContext(AppContext);
+	const modalContextValues = useContext(ModalContext);
 
 	const addLanguage = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
-		contextValues?.handleAddLanguage(language);
-		contextValues?.setOpen(false);
+		modalContextValues?.handleAddLanguage(language);
+		modalContextValues?.setOpen(false);
 	};
 
 	useEffect(() => {
@@ -25,10 +27,10 @@ const Modal = () => {
 		}
 	}, [language]);
 
-	if (!contextValues?.open) return null;
+	if (!modalContextValues?.open) return null;
 	return ReactDOM.createPortal(
 		<Box
-			className={`modal ${contextValues?.open ? "open" : null}`}
+			className={`modal ${modalContextValues?.open ? "open" : null}`}
 			component={"aside"}
 			sx={{
 				maxWidth: "100vw",
@@ -132,7 +134,7 @@ const Modal = () => {
 				</Box>
 			</Box>
 			<Button
-				onClick={() => contextValues.setOpen(false)}
+				onClick={() => modalContextValues.setOpen(false)}
 				sx={{
 					width: "45px",
 					height: "45px",
